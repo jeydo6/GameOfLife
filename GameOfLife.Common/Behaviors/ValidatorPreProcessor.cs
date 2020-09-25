@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Application.Behaviors
+namespace GameOfLife.Common.Behaviors
 {
     public class ValidatorPreProcessor<TRequest> : IRequestPreProcessor<TRequest>
     {

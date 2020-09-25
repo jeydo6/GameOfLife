@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using GameOfLife.Application.Behaviors;
-using GameOfLife.Application.Filters;
+using GameOfLife.Common.Behaviors;
+using GameOfLife.Common.Filters;
 using GameOfLife.Domain.Repository;
 using GameOfLife.Infrastructure.Repositories;
 using MediatR;
@@ -43,7 +43,9 @@ namespace GameOfLife.WebAPI
                 })
                 .AddFluentValidation(options =>
                 {
-                    options.RegisterValidatorsFromAssemblyContaining<Application.AssemblyMarker>();
+                    options.RegisterValidatorsFromAssemblyContaining<Application.AssemblyMarker>(
+                        lifetime: ServiceLifetime.Singleton
+                    );
                 });
 
             services

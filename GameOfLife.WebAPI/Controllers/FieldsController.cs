@@ -2,6 +2,7 @@
 using GameOfLife.Application.Dto;
 using GameOfLife.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,9 +34,9 @@ namespace GameOfLife.WebAPI.Controllers
         [Produces(typeof(Guid))]
         public async Task<IActionResult> Add(UInt16 size)
         {
-            return Ok(
-                await _mediator.Send(new AddFieldCommand(size))
-            );
+            var result = await _mediator.Send(new AddFieldCommand(size));
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -44,11 +45,30 @@ namespace GameOfLife.WebAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         [Produces(typeof(FieldDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Ok(
-                await _mediator.Send(new GetFieldQuery(id))
-            );
+            var result = await _mediator.Send(new GetFieldQuery(id));
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Delete-method
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _mediator.Send(new RemoveFieldCommand(id));
+
+            return NoContent();
         }
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Application.Filters
+namespace GameOfLife.Common.Filters
 {
     public class ValidationExceptionFilter : IAsyncExceptionFilter
     {

@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife.WebAPI", "GameOfLife.WebAPI\GameOfLife.WebAPI.csproj", "{8AFBFEAA-2176-4703-A775-C4B3D13544AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Application", "GameOfLife.Application\GameOfLife.Application.csproj", "{01AE9558-C054-44E1-A04B-684D79D32194}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife.Application", "GameOfLife.Application\GameOfLife.Application.csproj", "{01AE9558-C054-44E1-A04B-684D79D32194}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Domain", "GameOfLife.Domain\GameOfLife.Domain.csproj", "{E43D2652-2360-403A-A455-4E7545CC77F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife.Domain", "GameOfLife.Domain\GameOfLife.Domain.csproj", "{E43D2652-2360-403A-A455-4E7545CC77F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Infrastructure", "GameOfLife.Infrastructure\GameOfLife.Infrastructure.csproj", "{F16D77BC-899B-4FB5-A209-1AE6582F4596}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife.Infrastructure", "GameOfLife.Infrastructure\GameOfLife.Infrastructure.csproj", "{F16D77BC-899B-4FB5-A209-1AE6582F4596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Common", "GameOfLife.Common\GameOfLife.Common.csproj", "{5EAAFA5D-14BD-45E3-8B73-1300AAE66CE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F16D77BC-899B-4FB5-A209-1AE6582F4596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F16D77BC-899B-4FB5-A209-1AE6582F4596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F16D77BC-899B-4FB5-A209-1AE6582F4596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EAAFA5D-14BD-45E3-8B73-1300AAE66CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EAAFA5D-14BD-45E3-8B73-1300AAE66CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EAAFA5D-14BD-45E3-8B73-1300AAE66CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EAAFA5D-14BD-45E3-8B73-1300AAE66CE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
