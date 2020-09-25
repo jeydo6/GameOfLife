@@ -9,7 +9,7 @@ namespace GameOfLife.Domain.Entities
         public Field(UInt16 size, Byte density, Action<Field> lifeAction)
         {
             Id = Guid.NewGuid();
-            Size = size;
+            Size = (UInt16)(size + 2);
             Values = Generate(density, 0);
 
             _lifeAction = lifeAction;
@@ -37,9 +37,9 @@ namespace GameOfLife.Domain.Entities
             Boolean[,] values = new Boolean[Size, Size];
 
             Random random = new Random(seed);
-            for (UInt16 i = 0; i < Size; i++)
+            for (UInt16 i = 1; i < Size - 1; i++)
             {
-                for (UInt16 j = 0; j < Size; j++)
+                for (UInt16 j = 1; j < Size - 1; j++)
                 {
                     values[i, j] = random.Next(0, Byte.MaxValue - density) == 0;
                 }
