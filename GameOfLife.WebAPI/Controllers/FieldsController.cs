@@ -30,11 +30,11 @@ namespace GameOfLife.WebAPI.Controllers
         /// Post-method
         /// </summary>
         /// <returns></returns>
-        [HttpPost("{size}")]
+        [HttpPost]
         [Produces(typeof(Guid))]
-        public async Task<IActionResult> Add(UInt16 size)
+        public async Task<IActionResult> Add(UInt16 size, Byte density)
         {
-            var result = await _mediator.Send(new AddFieldCommand(size));
+            var result = await _mediator.Send(new AddFieldCommand(size, density));
 
             return Ok(result);
         }

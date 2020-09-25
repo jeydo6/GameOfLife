@@ -8,6 +8,9 @@ namespace GameOfLife.Application.Commands
         {
             RuleFor(c => c.Size)
                 .NotEmpty();
+
+            RuleFor(c => c.Density)
+                .NotEmpty();
         }
     }
 }
