@@ -9,6 +9,7 @@ namespace GameOfLife.Domain.Entities
         public Field(UInt16 size, Byte density, Action<Field> lifeAction)
         {
             Id = Guid.NewGuid();
+            DateTime = DateTime.Now;
             Size = (UInt16)(size + 2);
             Values = Generate(density, 0);
 
@@ -17,9 +18,11 @@ namespace GameOfLife.Domain.Entities
 
         public Guid Id { get; }
 
+        public DateTime DateTime { get; private set; }
+
         public UInt32 Generation { get; private set; }
 
-        public Boolean[,] Values { get; }
+        public Byte[] Values { get; }
 
         public UInt16 Size { get; }
 
@@ -28,20 +31,22 @@ namespace GameOfLife.Domain.Entities
             _lifeAction?.Invoke(this);
 
             Generation++;
+            DateTime = DateTime.Now;
 
             return this;
         }
 
-        private Boolean[,] Generate(Byte density, Int32 seed)
+        private Byte[] Generate(Byte density, Int32 seed)
         {
-            Boolean[,] values = new Boolean[Size, Size];
+            Byte[] values = new Byte[Size * Size];
 
             Random random = new Random(seed);
             for (UInt16 i = 1; i < Size - 1; i++)
             {
                 for (UInt16 j = 1; j < Size - 1; j++)
                 {
-                    values[i, j] = random.Next(0, Byte.MaxValue - density) == 0;
+                    UInt16 p = (UInt16)(j * Size + i);
+                    values[p] = (Byte)(random.Next(0, Byte.MaxValue / density) == 0 ? 1 : 0);
                 }
             }
 

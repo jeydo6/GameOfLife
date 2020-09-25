@@ -2,7 +2,6 @@
 using GameOfLife.Domain.Repository;
 using MediatR;
 using System;
-using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,61 +28,66 @@ namespace GameOfLife.Application.Commands
         private void Life(Field field)
         {
             UInt16 size = field.Size;
-            Boolean[,] values = field.Values.Clone() as Boolean[,];
+            Byte[] values = new Byte[size * size];
+            field.Values.CopyTo(values, 0);
 
             for (UInt16 i = 1; i < size - 1; i++)
             {
                 for (UInt16 j = 1; j < size - 1; j++)
                 {
-                    field.Values[i, j] = GetValue(
-                        field.Values[i, j],
-                        GetNeighboursCount(values, x: i, y: j)
+                    UInt16 p = (UInt16)(j * size + i);
+
+                    field.Values[p] = GetValue(
+                        field.Values[p],
+                        GetNeighboursCount(values, size, x: i, y: j)
                     );
                 }
             }
         }
 
-        private Byte GetNeighboursCount(Boolean[,] values, UInt16 x, UInt16 y)
+        private Byte GetNeighboursCount(Byte[] values, UInt16 size, UInt16 x, UInt16 y)
         {
-            Byte count = 0;
+            Byte count1 = 0;
 
             for (UInt16 i = (UInt16)(x - 1); i <= (UInt16)(x + 1); i++)
             {
                 for (UInt16 j = (UInt16)(y - 1); j <= (UInt16)(y + 1); j++)
                 {
+                    UInt16 p = (UInt16)(j * size + i);
+
                     if (i == x && j == y)
                     {
                         continue;
                     }
 
-                    if (values[i, j])
+                    if (values[p] == 1)
                     {
-                        count++;
+                        count1++;
                     }
                 }
             }
 
-            return count;
+            return count1;
         }
 
-        private Boolean GetValue(Boolean value, Byte neighboursCount)
+        private Byte GetValue(Byte value, Byte neighboursCount)
         {
-            if (value)
+            if (value == 1)
             {
                 if (neighboursCount == 2 || neighboursCount == 3)
                 {
-                    return true;
+                    return 1;
                 }
             }
-            else
+            else if (value == 0)
             {
                 if (neighboursCount == 3)
                 {
-                    return true;
+                    return 0;
                 }
             }
 
-            return false;
+            return 0;
         }
     }
 }

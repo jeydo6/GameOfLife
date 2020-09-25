@@ -8,6 +8,6 @@ namespace GameOfLife.Application.Dto
 
         public String Name { get; set; }
 
-        public Boolean[,] Values { get; set; }
+        public Byte[] Values { get; set; }
     }
 }

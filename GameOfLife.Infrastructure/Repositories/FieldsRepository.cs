@@ -27,6 +27,8 @@ namespace GameOfLife.Infrastructure.Repositories
 
         public async Task<Field> Get(Guid id)
         {
+            await Clear();
+
             if (_store.TryGetValue(id, out Field result))
             {
                 return await Task.FromResult(result);
@@ -50,6 +52,27 @@ namespace GameOfLife.Infrastructure.Repositories
             return Task.FromResult(
                 _store.Values.ToArray()
             );
+        }
+
+        private async Task Clear()
+        {
+            ICollection<Guid> keys = new List<Guid>();
+
+            DateTime dateTime = DateTime.Now.AddMinutes(-5);
+            foreach (var item in _store)
+            {
+                if (item.Value.DateTime < dateTime)
+                {
+                    keys.Add(item.Key);
+                }
+            }
+
+            foreach(var key in keys)
+            {
+                await Remove(key);
+            }
+
+            await Task.CompletedTask;
         }
     }
 }
