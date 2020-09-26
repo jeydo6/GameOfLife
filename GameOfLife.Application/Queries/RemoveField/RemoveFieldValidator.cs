@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 
-namespace GameOfLife.Application.Commands
+namespace GameOfLife.Application.Queries
 {
-    public class RemoveFieldValidator : AbstractValidator<RemoveFieldCommand>
+    public class RemoveFieldValidator : AbstractValidator<RemoveFieldQuery>
     {
         public RemoveFieldValidator()
         {

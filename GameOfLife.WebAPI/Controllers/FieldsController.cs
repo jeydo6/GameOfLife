@@ -59,6 +59,25 @@ namespace GameOfLife.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Get-method
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("next/{id}")]
+        [Produces(typeof(FieldDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Next(Guid id)
+        {
+            var result = await _mediator.Send(new NextFieldQuery(id));
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Delete-method
         /// </summary>
         /// <returns></returns>
@@ -66,7 +85,7 @@ namespace GameOfLife.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _mediator.Send(new RemoveFieldCommand(id));
+            await _mediator.Send(new RemoveFieldQuery(id));
 
             return NoContent();
         }

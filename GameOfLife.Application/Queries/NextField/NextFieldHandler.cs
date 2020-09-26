@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Application.Queries
 {
-    public class GetFieldHandler : IRequestHandler<GetFieldQuery, FieldDto>
+    public class NextFieldHandler : IRequestHandler<NextFieldQuery, FieldDto>
     {
         private readonly IFieldsRepository _fields;
         private readonly IMapper _mapper;
 
-        public GetFieldHandler(
+        public NextFieldHandler(
             IFieldsRepository fields,
             IMapper mapper
         )
@@ -22,11 +22,12 @@ namespace GameOfLife.Application.Queries
             _mapper = mapper;
         }
 
-        public async Task<FieldDto> Handle(GetFieldQuery request, CancellationToken cancellationToken)
+
+        public async Task<FieldDto> Handle(NextFieldQuery request, CancellationToken cancellationToken)
         {
             Field field = await _fields.Get(request.Id);
 
-            return _mapper.Map<FieldDto>(field);
+            return _mapper.Map<FieldDto>(field?.Next());
         }
     }
 }

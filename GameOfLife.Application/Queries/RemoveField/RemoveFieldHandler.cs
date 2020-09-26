@@ -3,9 +3,9 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Application.Commands
+namespace GameOfLife.Application.Queries
 {
-    public class RemoveFieldHandler : IRequestHandler<RemoveFieldCommand>
+    public class RemoveFieldHandler : IRequestHandler<RemoveFieldQuery>
     {
         private readonly IFieldsRepository _fields;
 
@@ -16,7 +16,7 @@ namespace GameOfLife.Application.Commands
             _fields = fields;
         }
 
-        public async Task<Unit> Handle(RemoveFieldCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RemoveFieldQuery request, CancellationToken cancellationToken)
         {
             await _fields.Remove(request.Id);
 
