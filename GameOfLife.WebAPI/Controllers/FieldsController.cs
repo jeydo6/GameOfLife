@@ -1,6 +1,7 @@
 ﻿using GameOfLife.Application.Commands;
 using GameOfLife.Application.Dto;
 using GameOfLife.Application.Queries;
+using GameOfLife.Domain.Enumerations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,22 +28,26 @@ namespace GameOfLife.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Post-method
+        /// Create a new field
         /// </summary>
-        /// <returns></returns>
+        /// <param name="size">Size of the field, must be bigger than 2</param>
+        /// <param name="density">Density of points in the field</param>
+        /// <param name="behavior">Rules of the Life</param>
+        /// <returns>Identifier of the created field</returns>
         [HttpPost]
         [Produces(typeof(Guid))]
-        public async Task<IActionResult> Add(UInt16 size, Byte density)
+        public async Task<IActionResult> Add(UInt16 size, Byte density, BehaviorEnum behavior)
         {
-            var result = await _mediator.Send(new AddFieldCommand(size, density));
+            var result = await _mediator.Send(new AddFieldCommand(size, density, behavior));
 
             return Ok(result);
         }
 
         /// <summary>
-        /// Get-method
+        /// Get the current field
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Identifier of the field</param>
+        /// <returns>The current field object</returns>
         [HttpGet("{id}")]
         [Produces(typeof(FieldDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -59,27 +64,24 @@ namespace GameOfLife.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Get-method
+        /// Get the next field
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Identifier of the field</param>
+        /// <returns>The next field object</returns>
         [HttpGet("next/{id}")]
         [Produces(typeof(FieldDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Next(Guid id)
         {
-            var result = await _mediator.Send(new NextFieldQuery(id));
-
-            if (result != null)
-            {
-                return Ok(result);
-            }
+            await _mediator.Send(new NextFieldCommand(id));
 
             return NoContent();
         }
 
         /// <summary>
-        /// Delete-method
+        /// Remove the field
         /// </summary>
+        /// <param name="id">Identifier of the field</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

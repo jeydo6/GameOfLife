@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
-using GameOfLife.Application.Dto;
 using GameOfLife.Domain.Entities;
-using GameOfLife.Domain.Repository;
+using GameOfLife.Domain.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Application.Queries
+namespace GameOfLife.Application.Commands
 {
-    public class NextFieldHandler : IRequestHandler<NextFieldQuery, FieldDto>
+    public class NextFieldHandler : IRequestHandler<NextFieldCommand>
     {
         private readonly IFieldsRepository _fields;
         private readonly IMapper _mapper;
@@ -23,11 +22,12 @@ namespace GameOfLife.Application.Queries
         }
 
 
-        public async Task<FieldDto> Handle(NextFieldQuery request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(NextFieldCommand request, CancellationToken cancellationToken)
         {
             Field field = await _fields.Get(request.Id);
+            field?.Next();
 
-            return _mapper.Map<FieldDto>(field?.Next());
+            return Unit.Value;
         }
     }
 }

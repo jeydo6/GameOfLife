@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System;
 
 namespace GameOfLife.Application.Commands
 {
@@ -7,10 +8,14 @@ namespace GameOfLife.Application.Commands
         public AddFieldValidator()
         {
             RuleFor(c => c.Size)
-                .NotEmpty();
+                .NotEmpty()
+                .GreaterThan((UInt16)2);
 
             RuleFor(c => c.Density)
                 .NotEmpty();
+
+            RuleFor(c => c.Behavior)
+                .IsInEnum();
         }
     }
 }

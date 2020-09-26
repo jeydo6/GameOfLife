@@ -1,5 +1,5 @@
 ﻿using GameOfLife.Domain.Entities;
-using GameOfLife.Domain.Repository;
+using GameOfLife.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

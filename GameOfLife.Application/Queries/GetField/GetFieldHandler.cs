@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using GameOfLife.Application.Dto;
 using GameOfLife.Domain.Entities;
-using GameOfLife.Domain.Repository;
+using GameOfLife.Domain.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

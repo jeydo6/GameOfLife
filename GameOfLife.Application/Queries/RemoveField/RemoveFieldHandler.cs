@@ -1,4 +1,4 @@
-﻿using GameOfLife.Domain.Repository;
+﻿using GameOfLife.Domain.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Domain.Repository
+namespace GameOfLife.Domain.Repositories
 {
     public interface IFieldsRepository
     {

@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using GameOfLife.Common.Behaviors;
 using GameOfLife.Common.Filters;
-using GameOfLife.Domain.Repository;
+using GameOfLife.Domain.Repositories;
 using GameOfLife.Infrastructure.Repositories;
 using MediatR;
 using MediatR.Pipeline;
@@ -75,10 +75,13 @@ namespace GameOfLife.WebAPI
                         Type = SecuritySchemeType.ApiKey
                     });
 
-                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    String xmlFile;
+                    
+                    xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
 
-                    options.IncludeXmlComments(xmlPath);
+                    xmlFile = $"{Assembly.GetAssembly(typeof(Application.AssemblyMarker)).GetName().Name}.xml";
+                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
                 });
 
             services
@@ -89,7 +92,8 @@ namespace GameOfLife.WebAPI
                 .AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidatorPreProcessor<>));
 
             services
-                .AddSingleton<IFieldsRepository, FieldsRepository>();
+                .AddSingleton<IFieldsRepository, FieldsRepository>()
+                .AddSingleton<IBehaviorsRepository, BehaviorsRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
