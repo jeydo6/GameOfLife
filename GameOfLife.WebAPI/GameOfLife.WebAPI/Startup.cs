@@ -53,7 +53,7 @@ namespace GameOfLife.WebAPI
                     options.DescribeAllParametersInCamelCase();
                     options.SwaggerDoc("main", new OpenApiInfo
                     {
-                        Version = "v0.1.0",
+                        Version = $"v{Assembly.GetEntryAssembly().GetName().Version}",
                         Title = "Game of Life",
                         Description = "A simple implementation of the Game of Life - cellular automaton, devised by J.H. Conway in 1970",
                         Contact = new OpenApiContact
