@@ -1,0 +1,43 @@
+﻿@page "/fields"
+
+@using GameOfLife.Domain.Enumerations
+@using System.Text.Json
+@using System.Threading
+
+@inject IFieldsService _fieldsService
+@inject JsonSerializerOptions _jsonSerializerOptions
+
+<h1>Conway's Game of Life</h1>
+
+@if (_field != null)
+{
+    <p>Current field: @_field.Name</p>
+    <p class="text-center">
+        <img src="data:image/png;base64, @(Convert.ToBase64String(_field.Data))" style="width: 45%;" />
+    </p>
+}
+
+<button class="btn btn-primary" @onclick="Click">Click me</button>
+
+@code {
+
+    private static readonly UInt16 _size = 512;
+    private static readonly Byte _density = 50;
+
+    private FieldDto _field = null;
+
+    private async Task Click()
+    {
+        Guid id;
+        if (_field == null)
+        {
+            id = await _fieldsService.Add(_size, _density, BehaviorEnum.Conway);
+        }
+        else
+        {
+            id = _field.Id;
+            await _fieldsService.Next(id);
+        }
+        _field = await _fieldsService.Get(id);
+    }
+}
