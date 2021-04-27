@@ -7,72 +7,72 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Infrastructure.Repositories
 {
-    public class FieldsRepository : IFieldsRepository
-    {
-        private readonly IDictionary<Guid, Field> _store = new Dictionary<Guid, Field>();
+	public class FieldsRepository : IFieldsRepository
+	{
+		private readonly IDictionary<Guid, Field> _store = new Dictionary<Guid, Field>();
 
-        public async Task<Guid> Add(Field item)
-        {
-            if (_store.ContainsKey(item.Id))
-            {
-                _store[item.Id] = item;
-            }
-            else
-            {
-                _store.Add(item.Id, item);
-            }
+		public async Task<Guid> Add(Field item)
+		{
+			if (_store.ContainsKey(item.Id))
+			{
+				_store[item.Id] = item;
+			}
+			else
+			{
+				_store.Add(item.Id, item);
+			}
 
-            return await Task.FromResult(item.Id);
-        }
+			return await Task.FromResult(item.Id);
+		}
 
-        public async Task<Field> Get(Guid id)
-        {
-            await Clear();
+		public async Task<Field> Get(Guid id)
+		{
+			await Clear();
 
-            if (_store.TryGetValue(id, out Field result))
-            {
-                return await Task.FromResult(result);
-            }
+			if (_store.TryGetValue(id, out Field result))
+			{
+				return await Task.FromResult(result);
+			}
 
-            return await Task.FromResult<Field>(null);
-        }
+			return await Task.FromResult<Field>(null);
+		}
 
-        public async Task Remove(Guid id)
-        {
-            if (_store.ContainsKey(id))
-            {
-                _store.Remove(id);
-            }
+		public async Task Remove(Guid id)
+		{
+			if (_store.ContainsKey(id))
+			{
+				_store.Remove(id);
+			}
 
-            await Task.CompletedTask;
-        }
+			await Task.CompletedTask;
+		}
 
-        public Task<Field[]> ToArray()
-        {
-            return Task.FromResult(
-                _store.Values.ToArray()
-            );
-        }
+		public Task<Field[]> ToArray()
+		{
+			return Task.FromResult(
+				_store.Values.ToArray()
+			);
+		}
 
-        private async Task Clear()
-        {
-            ICollection<Guid> keys = new List<Guid>();
+		private async Task Clear()
+		{
+			ICollection<Guid> keys = new List<Guid>();
 
-            DateTime dateTime = DateTime.Now.AddMinutes(-5);
-            foreach (var item in _store)
-            {
-                if (item.Value.DateTime < dateTime)
-                {
-                    keys.Add(item.Key);
-                }
-            }
+			DateTime dateTime = DateTime.Now.AddMinutes(-5);
+			foreach (var item in _store)
+			{
+				if (item.Value.DateTime < dateTime)
+				{
+					keys.Add(item.Key);
+				}
+			}
 
-            foreach(var key in keys)
-            {
-                await Remove(key);
-            }
+			foreach (var key in keys)
+			{
+				await Remove(key);
+			}
 
-            await Task.CompletedTask;
-        }
-    }
+			await Task.CompletedTask;
+		}
+	}
 }

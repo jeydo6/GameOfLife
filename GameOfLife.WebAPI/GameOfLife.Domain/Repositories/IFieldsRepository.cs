@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Domain.Repositories
 {
-    public interface IFieldsRepository
-    {
-        Task<Guid> Add(Field item);
+	public interface IFieldsRepository
+	{
+		Task<Guid> Add(Field item);
 
-        Task<Field> Get(Guid id);
+		Task<Field> Get(Guid id);
 
-        Task Remove(Guid id);
+		Task Remove(Guid id);
 
-        Task<Field[]> ToArray();
-    }
+		Task<Field[]> ToArray();
+	}
 }

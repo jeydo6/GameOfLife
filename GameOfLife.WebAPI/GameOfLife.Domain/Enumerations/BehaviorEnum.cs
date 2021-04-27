@@ -2,10 +2,10 @@
 
 namespace GameOfLife.Domain.Enumerations
 {
-    public enum BehaviorEnum : Byte
-    {
-        Null = 0,
+	public enum BehaviorEnum : Byte
+	{
+		Null = 0,
 
-        Conway = 1
-    }
+		Conway = 1
+	}
 }

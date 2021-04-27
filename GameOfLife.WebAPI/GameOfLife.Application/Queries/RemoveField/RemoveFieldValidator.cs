@@ -2,12 +2,12 @@
 
 namespace GameOfLife.Application.Queries
 {
-    public class RemoveFieldValidator : AbstractValidator<RemoveFieldQuery>
-    {
-        public RemoveFieldValidator()
-        {
-            RuleFor(q => q.Id)
-                .NotEmpty();
-        }
-    }
+	public class RemoveFieldValidator : AbstractValidator<RemoveFieldQuery>
+	{
+		public RemoveFieldValidator()
+		{
+			RuleFor(q => q.Id)
+				.NotEmpty();
+		}
+	}
 }

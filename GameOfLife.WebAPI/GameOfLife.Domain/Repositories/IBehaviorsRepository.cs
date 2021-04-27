@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Domain.Repositories
 {
-    public interface IBehaviorsRepository
-    {
-        Task<IBehavior> Get(BehaviorEnum id);
+	public interface IBehaviorsRepository
+	{
+		Task<IBehavior> Get(BehaviorEnum id);
 
-        Task<IBehavior[]> ToArray();
-    }
+		Task<IBehavior[]> ToArray();
+	}
 }

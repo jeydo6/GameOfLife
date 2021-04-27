@@ -20,111 +20,111 @@ using System.Reflection;
 
 namespace GameOfLife.WebAPI
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services
-                .AddControllers(options =>
-                {
-                    options.Filters.Add<ValidationExceptionFilter>();
-                })
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.Formatting = Formatting.Indented;
-                })
-                .AddFluentValidation(options =>
-                {
-                    options.RegisterValidatorsFromAssemblyContaining<Application.AssemblyMarker>(
-                        lifetime: ServiceLifetime.Singleton
-                    );
-                });
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services
+				.AddControllers(options =>
+				{
+					options.Filters.Add<ValidationExceptionFilter>();
+				})
+				.AddNewtonsoftJson(options =>
+				{
+					options.SerializerSettings.Formatting = Formatting.Indented;
+				})
+				.AddFluentValidation(options =>
+				{
+					options.RegisterValidatorsFromAssemblyContaining<Application.AssemblyMarker>(
+						lifetime: ServiceLifetime.Singleton
+					);
+				});
 
-            services
-                .AddSwaggerGen(options =>
-                {
-                    options.DescribeAllParametersInCamelCase();
-                    options.SwaggerDoc("main", new OpenApiInfo
-                    {
-                        Version = $"v{Assembly.GetEntryAssembly().GetName().Version}",
-                        Title = "Game of Life",
-                        Description = "A simple implementation of the Game of Life - cellular automaton, devised by J.H. Conway in 1970",
-                        Contact = new OpenApiContact
-                        {
-                            Name = "Vladimir Deryagin",
-                            Email = "Deryagin.Valdemar@yandex.ru"
-                        },
-                        License = new OpenApiLicense
-                        {
-                            Name = "Use under MIT"
-                        }
-                    });
-                    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-                    {
-                        In = ParameterLocation.Header,
-                        Description = "Please insert JWT with Bearer into field",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
-                    });
+			services
+				.AddSwaggerGen(options =>
+				{
+					options.DescribeAllParametersInCamelCase();
+					options.SwaggerDoc("main", new OpenApiInfo
+					{
+						Version = $"v{Assembly.GetEntryAssembly().GetName().Version}",
+						Title = "Game of Life",
+						Description = "A simple implementation of the Game of Life - cellular automaton, devised by J.H. Conway in 1970",
+						Contact = new OpenApiContact
+						{
+							Name = "Vladimir Deryagin",
+							Email = "Deryagin.Valdemar@yandex.ru"
+						},
+						License = new OpenApiLicense
+						{
+							Name = "Use under MIT"
+						}
+					});
+					options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+					{
+						In = ParameterLocation.Header,
+						Description = "Please insert JWT with Bearer into field",
+						Name = "Authorization",
+						Type = SecuritySchemeType.ApiKey
+					});
 
-                    String xmlFile;
-                    
-                    xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+					String xmlFile;
 
-                    xmlFile = $"{Assembly.GetAssembly(typeof(Application.AssemblyMarker)).GetName().Name}.xml";
-                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
-                });
+					xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+					options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
 
-            services
-                .AddMediatR(typeof(Application.AssemblyMarker))
-                .AddAutoMapper(typeof(Application.AssemblyMarker));
+					xmlFile = $"{Assembly.GetAssembly(typeof(Application.AssemblyMarker)).GetName().Name}.xml";
+					options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+				});
 
-            services
-                .AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidatorPreProcessor<>));
+			services
+				.AddMediatR(typeof(Application.AssemblyMarker))
+				.AddAutoMapper(typeof(Application.AssemblyMarker));
 
-            services
-                .AddSingleton<IFieldsRepository, FieldsRepository>()
-                .AddSingleton<IBehaviorsRepository, BehaviorsRepository>();
-        }
+			services
+				.AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidatorPreProcessor<>));
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseStaticFiles();
-                app.UseDeveloperExceptionPage();
+			services
+				.AddSingleton<IFieldsRepository, FieldsRepository>()
+				.AddSingleton<IBehaviorsRepository, BehaviorsRepository>();
+		}
 
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/main/swagger.json", "Game of Life API");
-                });
-            }
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseStaticFiles();
+				app.UseDeveloperExceptionPage();
 
-            app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()
-            );
+				app.UseSwagger();
+				app.UseSwaggerUI(options =>
+				{
+					options.SwaggerEndpoint("/swagger/main/swagger.json", "Game of Life API");
+				});
+			}
 
-            app.UseHttpsRedirection();
+			app.UseCors(builder => builder
+				.AllowAnyHeader()
+				.AllowAnyMethod()
+				.AllowAnyOrigin()
+			);
 
-            app.UseRouting();
+			app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+			app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
-    }
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+		}
+	}
 }
